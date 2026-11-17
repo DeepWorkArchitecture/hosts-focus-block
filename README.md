@@ -16,12 +16,14 @@ Works on **Windows** (PowerShell), **macOS** and **Linux**. No dependencies.
 
 ## How it works
 
-The script writes a marked section to your hosts file that points each domain (and its `www.` version) at `127.0.0.1`, then flushes the DNS cache:
+The script writes a marked section to your hosts file that points each domain (and its `www.` version) at your own machine, over both IPv4 (`127.0.0.1`) and IPv6 (`::1`), then flushes the DNS cache:
 
 ```
 # >>> dev-execution-block >>>
 127.0.0.1 reddit.com
 127.0.0.1 www.reddit.com
+::1 reddit.com
+::1 www.reddit.com
 ...
 # <<< dev-execution-block <<<
 ```
@@ -124,7 +126,7 @@ You can also open the hosts file as administrator and delete everything between 
 
 - **Work laptops:** if your employer manages the machine, check with IT before editing the hosts file.
 - **Antivirus** may warn that the hosts file changed. That's expected here.
-- **Testing:** the scripts have been tested against copies of hosts files. If something behaves differently on your system, please open an issue with your OS and shell version.
+- **Testing:** the Windows script has been run on Windows 11. The macOS and Linux scripts have been tested against copies of hosts files. If something behaves differently on your system, please open an issue with your OS and shell version.
 
 ## Why this exists
 

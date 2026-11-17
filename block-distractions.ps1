@@ -7,7 +7,8 @@ $domains = "twitter.com","x.com","reddit.com","news.ycombinator.com","facebook.c
 $pattern = "(?s)" + [regex]::Escape($start) + ".*?" + [regex]::Escape($end) + "\r?\n?"
 $content = ((Get-Content $HostsFile -Raw) -replace $pattern, "").TrimEnd()
 if (-not $Unblock) {
-  $rows = foreach ($d in $domains) { "127.0.0.1 $d"; "127.0.0.1 www.$d" }
+  # IPv4 and IPv6, so the site can't load over IPv6 instead.
+  $rows = foreach ($d in $domains) { "127.0.0.1 $d"; "127.0.0.1 www.$d"; "::1 $d"; "::1 www.$d" }
   $content += "`r`n" + ((@($start) + $rows + @($end)) -join "`r`n")
 }
 Set-Content -Path $HostsFile -Value $content -Encoding ascii

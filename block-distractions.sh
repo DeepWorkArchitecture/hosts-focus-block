@@ -11,11 +11,16 @@ DOMAINS=(
   "instagram.com" "youtube.com"
 )
 sed -i.bak "/$MARKER_START/,/$MARKER_END/d" "$HOSTS_FILE"
+# Make sure the block starts on its own line.
+if [ -s "$HOSTS_FILE" ] && [ -n "$(tail -c1 "$HOSTS_FILE")" ]; then echo >> "$HOSTS_FILE"; fi
 {
   echo "$MARKER_START"
   for d in "${DOMAINS[@]}"; do
+    # IPv4 and IPv6, so the site can't load over IPv6 instead.
     echo "127.0.0.1 $d"
     echo "127.0.0.1 www.$d"
+    echo "::1 $d"
+    echo "::1 www.$d"
   done
   echo "$MARKER_END"
 } >> "$HOSTS_FILE"
